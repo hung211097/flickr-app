@@ -1,0 +1,187 @@
+.navbar{
+  padding: 0 !important;
+}
+  .navbar .container{
+    position: relative;
+  }
+
+.bg-dark{
+  background-color: #212123 !important;
+}
+
+.navbar-brand{
+  line-height: 1rem !important;
+  transition:  0.2s ease-in-out;
+}
+  .navbar-brand:hover{
+    opacity: 0.7;
+  }
+
+.navbar-collapse{
+  position: relative;
+}
+
+.nav-link{
+  line-height: 2.1rem;
+  color: #fff !important;
+  font-weight: 600 !important;
+  font-size: 16px;
+  padding-right: 1rem !important;
+  padding-left: 1rem !important;
+}
+  .nav-link button{
+    font-weight: 600;
+    padding: 0 20px;
+    height: 32px;
+    margin: 0px 15px 5px;
+  }
+
+.pull-right{
+  position: absolute;
+  top: 9px;
+  right: 0;
+}
+  .form-inline {
+    float: left;
+  }
+  .form-inline .input-group-text{
+    cursor: pointer;
+  }
+  .form-inline input{
+    display: inline-block !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    height: 33px !important;
+    width: 220px !important;
+    margin: 0 !important;
+    padding: 0 5px 0 38px !important;
+    border: 0 solid #ccc !important;
+    color: #000 !important;
+    font-size: 14px !important;
+    border-radius: 3px !important;
+  }
+  .form-inline .input-group{
+    position: relative !important;
+  }
+  .form-inline .input-group input{
+    background-color: #e6e6e6;
+    transition: 0.1s ease-in-out;
+  }
+  .form-inline .input-group input:focus{
+    background-color: #fff !important;
+  }
+    .form-inline .input-group .input-group-text{
+      text-indent: 200%;
+      white-space: nowrap;
+      overflow: hidden;
+      position: absolute;
+      top: 0;
+      left: 7px;
+      height: 100%;
+      width: 32px;
+      padding: 0;
+      background-color: transparent;
+      opacity: .6;
+      z-index: 1002;
+      border: 0;
+      border-radius: 3px;
+    }
+  .upload{
+    display: inline-block;
+    float: right;
+    margin-left: 1.5rem;
+  }
+  .signin{
+    display: inline-block;
+    float: right;
+    margin-left: 1.5rem;
+    color: white !important;
+    font-weight: 600;
+    line-height: 2rem;
+  }
+  .signup{
+    display: inline-block;
+    float: right;
+    position: relative;
+    top: -9px;
+    padding-right: 0 !important;
+  }
+    .signup button{
+      margin-right: 0;
+    }
+
+  .nav-hover{
+    transition:  0.2s ease-in-out;
+  }
+    .nav-hover:hover{
+      opacity: 0.7;
+    }
+
+
+.fluid-subnav-shim {
+  height: 50px;
+  margin-bottom: 20px;
+  margin-top: 51px;
+}
+.fluid-subnav {
+  background-color: #fff;
+  width: 100%;
+  height: 50px;
+  position: relative;
+  overflow: visible;
+  box-shadow: inset 0 -2px transparent;
+  border-bottom: 1px solid hsla(0,0%,54%,.3);
+  box-sizing: border-box;
+}
+.fluid-subnav .links {
+    -webkit-touch-callout: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    height: 47px;
+    font-size: 16px;
+    font-weight: 400;
+    position: absolute;
+    height: 50px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.fluid-subnav .link {
+    height: 100%;
+    box-sizing: border-box;
+    cursor: pointer;
+    outline: none;
+    border-bottom: 3px solid transparent;
+    margin-right: 10px;
+    display: inline-block;
+    -webkit-transition: border-bottom .1s linear;
+    transition: border-bottom .1s linear;
+}
+.fluid-subnav .link.selected, .fluid .fluid-subnav .link:hover{
+    border-bottom: 3px solid #0091dc;
+  }
+  .fluid-subnav a {
+      text-decoration: none;
+      display: inline-block;
+      padding: 12px 20px;
+      color: #000;
+      font-size: 12pt;
+      font-weight: 600;
+      line-height: 170%;
+      opacity: .75;
+      box-sizing: border-box;
+      height: 50px;
+  }
+  .fluid-centered {
+      min-width: 800px;
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 130px;
+      padding-right: 130px;
+  }
