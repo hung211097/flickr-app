@@ -32,17 +32,11 @@ class Home extends Component {
   componentDidMount(){
     window.addEventListener('scroll', this.handleOnScroll.bind(this));
     this.apiService.getInterestPhotos(this.state.nextPage).then((data) => {
-      let temp = []
-      for(let i = 0; i < data.length; i++){
-        temp.push(this.apiService.getInfoPhotoById(data[i].id))
-      }
-      Promise.all(temp).then((values) => {
-        this.setState({
-          photos: values,
-          geometry: justifiedLayout(this.createBoxes(values), config),
-          nextPage: this.state.nextPage + 1,
-          firstLoading: false
-        })
+      this.setState({
+        photos: data,
+        geometry: justifiedLayout(this.createBoxes(data), config),
+        nextPage: this.state.nextPage + 1,
+        firstLoading: false
       })
     })
   }
@@ -56,17 +50,11 @@ class Home extends Component {
       isLoading: true
     })
     this.apiService.getInterestPhotos(this.state.nextPage).then((data) => {
-      let temp = []
-      for(let i = 0; i < data.length; i++){
-        temp.push(this.apiService.getInfoPhotoById(data[i].id))
-      }
-      Promise.all(temp).then((values) => {
-        this.setState({
-          photos: [...this.state.photos, ...values],
-          geometry: justifiedLayout(this.createBoxes([...this.state.photos, ...values]), config),
-          nextPage: this.state.nextPage + 1 > data.totalPages ? false : this.state.nextPage + 1,
-          isLoading: false
-        })
+      this.setState({
+        photos: [...this.state.photos, ...data],
+        geometry: justifiedLayout(this.createBoxes([...this.state.photos, ...data]), config),
+        nextPage: this.state.nextPage + 1 > data.totalPages ? false : this.state.nextPage + 1,
+        isLoading: false
       })
     })
   }
@@ -75,7 +63,7 @@ class Home extends Component {
     var scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
     var scrollHeight = (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight;
     var clientHeight = document.documentElement.clientHeight || window.innerHeight;
-    var scrolledToBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight - 150;
+    var scrolledToBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight - 300;
     if (scrolledToBottom && this.state.nextPage && !this.state.isLoading) {
       this.onLoadMore();
     }
@@ -83,7 +71,7 @@ class Home extends Component {
 
   createBoxes(data){
     return data.map((item) => {
-        return {width: +item.width, height: +item.height}
+        return {width: +item.width_m, height: +item.height_m}
     })
   }
 
@@ -102,33 +90,25 @@ class Home extends Component {
               className=""
               transitionEnterTimeout={500}
               transitionLeaveTimeout={300}>
-              {/*<InfiniteScroll
-                pageStart={0}
-                loadMore={this.onLoadMore.bind(this)}
-                hasMore={!!this.state.nextPage}
-                loader={<div className="loader" key={0} style={{clear: 'both'}}>Loading ...</div>}
-                threshold={50}
-                >*/}
                 {!!this.state.photos.length && this.state.photos.map((item, key) => {
                   return(
-                      <div className="photo-view" key={key} style={{...this.state.geometry.boxes[key]}}>
-                        <div className="interaction-view">
-                          <div className="photo-list-photo-interaction">
-                            <a className="overlay"> </a>
-                            <div className="interaction-bar">
-                              <div className="text">
-                                <a className="title">{item.title}</a>
-                                <a className="attribution">by {item.username}</a>
-                              </div>
+                    <div className="photo-view" key={key} style={{...this.state.geometry.boxes[key]}}>
+                      <div className="interaction-view">
+                        <div className="photo-list-photo-interaction">
+                          <a className="overlay"> </a>
+                          <div className="interaction-bar">
+                            <div className="text">
+                              <a className="title">{item.title}</a>
+                              <a className="attribution">by {item.ownername}</a>
                             </div>
                           </div>
                         </div>
-                        <img src={item.source} alt="img" />
                       </div>
-                    )
-                  })
-                }
-              {/*</InfiniteScroll>*/}
+                      <img src={item.url_m} alt="img" />
+                    </div>
+                  )
+                })
+              }
             </ReactCSSTransitionGroup>
           </div>
           <div className={this.state.isLoading ? "bottom-loading show" : "bottom-loading"}>
