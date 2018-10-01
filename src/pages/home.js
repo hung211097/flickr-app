@@ -7,6 +7,7 @@ import loading from '../images/loading.gif'
 import botLoading from '../images/bot-loading.gif'
 import justifiedLayout from 'justified-layout';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import Lightbox from 'react-images';
 
 const config = {
   containerWidth: 1087,
@@ -25,13 +26,15 @@ class Home extends Component {
       photos: [],
       geometry: null,
       nextPage: 1,
-      firstLoading: true
+      firstLoading: true,
+      photoIndex: 0,
+      isOpen: false
     }
   }
 
   componentDidMount(){
     window.addEventListener('scroll', this.handleOnScroll.bind(this));
-    this.apiService.getInterestPhotos(this.state.nextPage).then((data) => {
+    this.apiService.getInterestPhotos(this.state.nextPage, 20).then((data) => {
       this.setState({
         photos: data,
         geometry: justifiedLayout(this.createBoxes(data), config),
@@ -49,7 +52,7 @@ class Home extends Component {
     this.setState({
       isLoading: true
     })
-    this.apiService.getInterestPhotos(this.state.nextPage).then((data) => {
+    this.apiService.getInterestPhotos(this.state.nextPage, 20).then((data) => {
       this.setState({
         photos: [...this.state.photos, ...data],
         geometry: justifiedLayout(this.createBoxes([...this.state.photos, ...data]), config),
@@ -75,7 +78,39 @@ class Home extends Component {
     })
   }
 
+  createSourceImg(){
+    return this.state.photos.map((item) => {
+      return {src: item.url_m}
+    })
+  }
+
+  handleNext(){
+    this.setState({
+      photoIndex: (this.state.photoIndex + 1) % this.state.photos.length,
+    })
+  }
+
+  handlePrev(){
+    this.setState({
+      photoIndex: (this.state.photoIndex + this.state.photos.length - 1) % this.state.photos.length,
+    })
+  }
+
+  handleClose(){
+    this.setState({ isOpen: false })
+  }
+
+  handleOpen(index){
+    this.setState({
+      isOpen: true,
+      photoIndex: index
+    })
+  }
+
   render() {
+    console.log(this.state);
+    console.log(this.createSourceImg());
+    const {photos} = this.state
     return (
       <div>
         <Header />
@@ -90,16 +125,16 @@ class Home extends Component {
               className=""
               transitionEnterTimeout={500}
               transitionLeaveTimeout={300}>
-                {!!this.state.photos.length && this.state.photos.map((item, key) => {
+                {!!photos.length && photos.map((item, key) => {
                   return(
-                    <div className="photo-view" key={key} style={{...this.state.geometry.boxes[key]}}>
+                    <div className="photo-view" key={key} style={{...this.state.geometry.boxes[key]}} onClick={this.handleOpen.bind(this, key)}>
                       <div className="interaction-view">
                         <div className="photo-list-photo-interaction">
                           <a className="overlay"> </a>
                           <div className="interaction-bar">
                             <div className="text">
                               <a className="title">{item.title}</a>
-                              <a className="attribution">by {item.ownername}</a>
+                              <a className="attribution">by {item.ownername} - {item.views} views</a>
                             </div>
                           </div>
                         </div>
@@ -111,6 +146,17 @@ class Home extends Component {
               }
             </ReactCSSTransitionGroup>
           </div>
+          {!!photos.length && this.state.isOpen &&
+            <Lightbox
+              images={this.createSourceImg()}
+              isOpen={this.state.isOpen}
+              onClickPrev={this.handlePrev.bind(this)}
+              onClickNext={this.handleNext.bind(this)}
+              onClose={this.handleClose.bind(this)}
+              currentImage={this.state.photoIndex}
+              backdropClosesModal
+            />
+          }
           <div className={this.state.isLoading ? "bottom-loading show" : "bottom-loading"}>
             <img src={botLoading} alt="loading" />
           </div>

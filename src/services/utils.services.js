@@ -10,6 +10,6 @@ export function getArrayPhotoMedium(data){
 }
 
 export function getInfoPhotoMedium(data){
-  let photo = (_.pick(data, ['id', 'title', 'ownername', 'url_m', 'height_m', 'width_m']))
+  let photo = (_.pick(data, ['id', 'title', 'ownername', 'views', 'url_m', 'height_m', 'width_m']))
   return photo
 }
