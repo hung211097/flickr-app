@@ -11,6 +11,7 @@
     "react-addons-css-transition-group": "^15.6.2",
     "react-dom": "^16.5.2",
     "react-icons-kit": "^1.1.12",
+    "react-images": "^0.5.19",
     "react-scripts": "1.1.5"
   },
   "scripts": {
