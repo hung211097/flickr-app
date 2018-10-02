@@ -108,8 +108,6 @@ class Home extends Component {
   }
 
   render() {
-    console.log(this.state);
-    console.log(this.createSourceImg());
     const {photos} = this.state
     return (
       <div>
