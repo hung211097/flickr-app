@@ -24,13 +24,23 @@ export function getInfoPhoto(data, sizes){
     comments: _.result(data, 'comments._content'),
     tags: _.result(data, 'tags.tag')
   })
-  let tempSize = getMediumImage(sizes.size)
-  return _.merge(photo, _.pick(tempSize, ['source', 'height', 'width']))
+  let mediumSize = getMediumImage(sizes.size)
+  let largeSize = getLargeImage(sizes.size)
+  return _.merge(photo, {mediumSize: _.pick(mediumSize, ['source', 'height', 'width'])}, {largeSize: _.pick(largeSize, 'source', 'height', 'width')})
 }
 
 function getMediumImage(sizes){
   for(let i = 0; i < sizes.length; i++){
     if(sizes[i].label === "Medium"){
+      return sizes[i]
+    }
+  }
+  return null;
+}
+
+function getLargeImage(sizes){
+  for(let i = 0; i < sizes.length; i++){
+    if(sizes[i].label === "Medium 800"){
       return sizes[i]
     }
   }

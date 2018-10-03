@@ -10,6 +10,7 @@ import {plus} from 'react-icons-kit/fa/plus'
 import { Icon } from 'react-icons-kit'
 import {getAvatar} from '../services/utils.services'
 import format from 'date-fns/format'
+import ImageZoom from 'react-medium-image-zoom'
 
 class Detail extends Component {
   constructor(props){
@@ -17,7 +18,8 @@ class Detail extends Component {
     this.apiService = ApiService()
     this.state = {
       photo: null,
-      user: null
+      user: null,
+      isZoom: false
     }
   }
 
@@ -34,6 +36,24 @@ class Detail extends Component {
     })
   }
 
+  handleGoBack(){
+    const {history} = this.props
+    history.goBack()
+  }
+
+  handleUnzoom(){
+    this.setState({
+      isZoom: false
+    })
+  }
+
+  handleZoom(){
+    this.setState({
+      isZoom: true
+    })
+  }
+
+
   render() {
     console.log(this.state);
     return(
@@ -43,17 +63,33 @@ class Detail extends Component {
             <div className="view photo-well-media-scrappy-view">
               <div className="photo-zoom">
                 <span className="facade-of-protection-neue">
-                  <div className="view zoom-view"></div>
+                  <div className="view zoom-view" onClick={this.handleZoom.bind(this)}></div>
                 </span>
                 {this.state.photo &&
-                  <img className="main-photo" alt="img" src={this.state.photo.source}/>
+                  // <img className="main-photo" alt="img" src={this.state.photo.mediumSize.source}/>
+                  <ImageZoom
+                    image={{
+                      src: this.state.photo.mediumSize.source,
+                      alt: 'img',
+                      className: 'main-photo',
+                    }}
+                    zoomImage={{
+                      src: this.state.photo.largeSize.source,
+                      alt: 'img',
+                      className: 'zoomed',
+                    }}
+                    isZoomed={this.state.isZoom}
+                    zoomMargin={50}
+                    defaultStyles={{zoomContainer: {zIndex: '2000'}, overlay: {background: 'rgb(33, 33, 33) none repeat scroll 0% 0%', opacity: '0.8'}}}
+                    onUnzoom={this.handleUnzoom.bind(this)}
+                  />
                 }
               </div>
             </div>
-            <Link to="/" className="entry-type do-not-evict no-outline">
+            <a to="/" className="entry-type do-not-evict no-outline" onClick={this.handleGoBack.bind(this)}>
               <Icon icon={arrowLeft} size={16} />
-              <span>Back to explore</span>
-            </Link>
+              <span>Back to previous page</span>
+            </a>
           </div>
         </div>
         <div className="view sub-photo-view">
@@ -63,7 +99,9 @@ class Detail extends Component {
                 {this.state.user &&
                   <div className="avatar person medium" style={{backgroundImage: `url(${getAvatar(this.state.user)})`}}></div>
                 }
-                <a className="pro-badge-inline">{this.state.user && this.state.user.ispro ? 'PRO' : ''}</a>
+                {this.state.user && !!this.state.user.ispro &&
+                  <a className="pro-badge-inline">PRO</a>
+                }
                 <div className="attribution-info">
                   <a className="owner-name truncate">{this.state.photo ? this.state.photo.username : ''}</a>
                   <div className="view follow-view clear-float photo-attribution">
@@ -76,18 +114,20 @@ class Detail extends Component {
                   </div>
                 </div>
               </div>
-              <div className="view sub-photo-title-desc-view">
-                <div className="title-desc-block  showFull">
-                  <h1 className="meta-field photo-title">{this.state.photo ? this.state.photo.title : ''}</h1>
-                  <h2 className="meta-field photo-desc">
-                    {this.state.photo &&
-                      <p>{this.state.photo.description}</p>
-                    }
-                    {/*<p>OBSERVE Collective</p>
-                    <p>All images are © Copyrighted and All Rights Reserved</p>*/}
-                  </h2>
+              {this.state.photo && this.state.photo.title && this.state.photo.description &&
+                <div className="view sub-photo-title-desc-view">
+                  <div className="title-desc-block  showFull">
+                    <h1 className="meta-field photo-title">{this.state.photo ? this.state.photo.title : ''}</h1>
+                    <h2 className="meta-field photo-desc">
+                      {this.state.photo &&
+                        <p dangerouslySetInnerHTML={{ __html: this.state.photo.description}}></p>
+                      }
+                      {/*<p>OBSERVE Collective</p>
+                      <p>All images are © Copyrighted and All Rights Reserved</p>*/}
+                    </h2>
+                  </div>
                 </div>
-              </div>
+              }
             </div>
             <div className="view sub-photo-right-view">
               {this.state.photo &&
@@ -133,8 +173,10 @@ class Detail extends Component {
                   <ul className="tags-list">
                     {this.state.photo && this.state.photo.tags.map((item) => {
                         return(
-                          <li className="tag" ley={item.id}>
-                            <a>{item.raw}</a>
+                          <li className="tag" key={item.id}>
+                            <Link to={'/photo/tags/' + item.raw.replace(/ /g, "")}>
+                              <span>{item.raw}</span>
+                            </Link>
                           </li>
                         )
                       })

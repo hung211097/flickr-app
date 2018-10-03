@@ -5,8 +5,33 @@ import {search} from 'react-icons-kit/fa/search'
 import {cloudUpload} from 'react-icons-kit/fa/cloudUpload'
 import { Icon } from 'react-icons-kit'
 import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router'
 
 class Header extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      keyword: ''
+    }
+  }
+
+  handleChange(e){
+    this.setState({
+      keyword: e.target.value
+    })
+  }
+
+  handleSubmit(e){
+    e.preventDefault();
+    const {history} = this.props
+    if(this.state.keyword !== ''){
+      this.setState({
+        keyword: ''
+      })
+      history.push(`/photo/tags/${this.state.keyword.replace(/ /g, "")}`)
+    }
+  }
+
   render() {
     return (
       <div>
@@ -20,19 +45,20 @@ class Header extends Component {
               </button>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
               <div className="navbar-nav">
-                <a className="nav-item nav-link nav-hover">Explore</a>
+                <Link className="nav-item nav-link nav-hover" to="/">Explore</Link>
                 <a className="nav-item nav-link nav-hover">Create</a>
                 <a className="nav-item nav-link nav-hover">Get Pro</a>
               </div>
               <div className="pull-right">
-                <form className="form-inline">
+                <form className="form-inline" onSubmit={this.handleSubmit.bind(this)}>
                   <div className="input-group">
                     <div className="input-group-prepend">
                       <span className="input-group-text" id="basic-addon1">
-                        <Icon size={20} icon={search} />
+                        <Icon size={20} icon={search} onClick={this.handleSubmit.bind(this)}/>
                       </span>
                     </div>
-                    <input className="form-control" placeholder="Photos, people, or groups" aria-label="Username" aria-describedby="basic-addon1" type="text" />
+                    <input className="form-control" onChange={this.handleChange.bind(this)} value={this.state.keyword}
+                       placeholder="Photos, people, or groups" aria-label="Username" aria-describedby="basic-addon1" type="text" />
                   </div>
                 </form>
                 <a className="signup nav-item nav-link">
@@ -53,4 +79,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default withRouter(Header);

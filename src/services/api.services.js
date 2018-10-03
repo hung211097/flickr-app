@@ -23,7 +23,6 @@ export default () => {
         },
         getPhotosByTags: (tag, page = 1, limit = 10) => {
           return axios.get(`${config.apiUrl}?method=flickr.photos.search&api_key=${config.KEY_API}&tags=${tag}&sort=relevance&extras=media%2C+url_m%2C+owner_name&format=json&nojsoncallback=1&page=${page}&per_page=${limit}`).then((data) => {
-            console.log(data);
             return getArrayPhotoMedium(data.data.photos)
           })
         },
