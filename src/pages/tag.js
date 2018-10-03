@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import '../styles/home.css';
+import '../styles/tag.css';
 import ApiService from '../services/api.services'
 import {Photo} from '../component/index'
+import {caretRight} from 'react-icons-kit/fa/caretRight'
+import { Icon } from 'react-icons-kit'
 import loading from '../images/loading.gif'
 import botLoading from '../images/bot-loading.gif'
 import justifiedLayout from 'justified-layout';
@@ -16,7 +18,7 @@ const config = {
   }
 }
 
-class Home extends Component {
+class Tag extends Component {
   constructor(props){
     super(props)
     this.apiService = ApiService()
@@ -30,7 +32,7 @@ class Home extends Component {
 
   componentDidMount(){
     window.addEventListener('scroll', this.handleOnScroll.bind(this));
-    this.apiService.getInterestPhotos(this.state.nextPage, 20).then((data) => {
+    this.apiService.getPhotosByTags('germany', this.state.nextPage, 20).then((data) => {
       this.setState({
         photos: data,
         geometry: justifiedLayout(this.createBoxes(data), config),
@@ -48,7 +50,7 @@ class Home extends Component {
     this.setState({
       isLoading: true
     })
-    this.apiService.getInterestPhotos(this.state.nextPage, 20).then((data) => {
+    this.apiService.getPhotosByTags('germany', this.state.nextPage, 30).then((data) => {
       this.setState({
         photos: [...this.state.photos, ...data],
         geometry: justifiedLayout(this.createBoxes([...this.state.photos, ...data]), config),
@@ -83,10 +85,10 @@ class Home extends Component {
             <div className="fluid-subnav">
               <div className="subnav-content fluid-centered">
                 <ul className="links">
-                  <li className="link selected">
+                  <li className="link">
                     <a><span>Explore</span></a>
                   </li>
-                  <li className="link">
+                  <li className="link selected">
                     <a><span>Trending</span></a>
                   </li>
                 </ul>
@@ -96,15 +98,23 @@ class Home extends Component {
         </nav>
         <div className="main fluid-centered">
           <div className="title-row">
-            <h3>Explore</h3>
+            <h5>
+              <span>Tags</span>
+              <span><Icon icon={caretRight} size={16} style={{position: 'relative', top: '3px', margin: '0 7px'}}/></span>
+              <span>germany</span>
+            </h5>
           </div>
-          <div className="view photo-list-view" style={this.state.geometry ? {height: this.state.geometry.containerHeight} : {}}>
-            <ReactCSSTransitionGroup
-              transitionName="fade"
-              component="div"
-              className=""
-              transitionEnterTimeout={500}
-              transitionLeaveTimeout={300}>
+          <div className="view tag-photos-everyone-view requiredToShowOnServer">
+            <div className="all-photo">
+              <h5 className="search-results-header">All Photos Tagged &quot;germany&quot;</h5>
+            </div>
+            <div className="view photo-list-view" style={this.state.geometry ? {height: this.state.geometry.containerHeight} : {}}>
+              <ReactCSSTransitionGroup
+                transitionName="fade"
+                component="div"
+                className=""
+                transitionEnterTimeout={500}
+                transitionLeaveTimeout={300}>
                 {!!photos.length && photos.map((item, key) => {
                   return(
                     <Photo info={item} geometry={this.state.geometry.boxes[key]} key={key}/>
@@ -116,6 +126,7 @@ class Home extends Component {
           <div className={this.state.isLoading ? "bottom-loading show" : "bottom-loading"}>
             <img src={botLoading} alt="loading" />
           </div>
+          </div>
         </div>
         <div className={this.state.firstLoading ? "loading show" : "loading"}>
           <img src={loading} alt="loading" />
@@ -125,4 +136,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default Tag;

@@ -1,0 +1,25 @@
+.title-row h5.tag-list-header {
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 16px;
+}
+.title-row h5 {
+    text-overflow: ellipsis;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.tag-photos-everyone-view {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 20px;
+}
+
+.tag-photos-everyone-view h5, .tag-photos-everyone-view h5.search-results-header {
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    font-weight: 600;
+    font-size: 16px;
+    text-overflow: ellipsis;
+    width: 100%;
+}
