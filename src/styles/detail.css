@@ -486,6 +486,4 @@
   transform: translate3d(0px, 0px, 0px) scale(1.1) !important;
   transition: transform  0.4s all ease !important;
   top: 33px !important;
-  /* transition: transform 300ms ease 0.3s !important;
-  transform: translate3d(0px, 36.5px, 0px) !important; */
 }
