@@ -3,3 +3,11 @@
 body{
   background-color: #f3f5f6 !important;
 }
+
+.truncate {
+    text-overflow: ellipsis;
+}
+.hide-text, .truncate {
+    white-space: nowrap;
+    overflow: hidden;
+}

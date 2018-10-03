@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import '../styles/home.css';
 import ApiService from '../services/api.services'
-import Header from '../component/header';
-import Footer from '../component/footer';
+import {Photo} from '../component/index'
 import loading from '../images/loading.gif'
 import botLoading from '../images/bot-loading.gif'
 import justifiedLayout from 'justified-layout';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import Lightbox from 'react-images';
 
 const config = {
   containerWidth: 1087,
@@ -78,40 +76,26 @@ class Home extends Component {
     })
   }
 
-  createSourceImg(){
-    return this.state.photos.map((item) => {
-      return {src: item.url_m}
-    })
-  }
-
-  handleNext(){
-    this.setState({
-      photoIndex: (this.state.photoIndex + 1) % this.state.photos.length,
-    })
-  }
-
-  handlePrev(){
-    this.setState({
-      photoIndex: (this.state.photoIndex + this.state.photos.length - 1) % this.state.photos.length,
-    })
-  }
-
-  handleClose(){
-    this.setState({ isOpen: false })
-  }
-
-  handleOpen(index){
-    this.setState({
-      isOpen: true,
-      photoIndex: index
-    })
-  }
-
   render() {
     const {photos} = this.state
     return (
       <div>
-        <Header />
+        <nav className="subnav">
+          <div className="fluid-subnav-shim">
+            <div className="fluid-subnav">
+              <div className="subnav-content fluid-centered">
+                <ul className="links">
+                  <li className="link selected">
+                    <a><span>Explore</span></a>
+                  </li>
+                  <li className="link">
+                    <a><span>Trending</span></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </nav>
         <div className="main fluid-centered">
           <div className="title-row">
             <h3>Explore</h3>
@@ -125,41 +109,16 @@ class Home extends Component {
               transitionLeaveTimeout={300}>
                 {!!photos.length && photos.map((item, key) => {
                   return(
-                    <div className="photo-view" key={key} style={{...this.state.geometry.boxes[key]}} onClick={this.handleOpen.bind(this, key)}>
-                      <div className="interaction-view">
-                        <div className="photo-list-photo-interaction">
-                          <a className="overlay"> </a>
-                          <div className="interaction-bar">
-                            <div className="text">
-                              <a className="title">{item.title}</a>
-                              <a className="attribution">by {item.ownername} - {item.views} views</a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <img src={item.url_m} alt="img" />
-                    </div>
+                    <Photo info={item} geometry={this.state.geometry.boxes[key]} key={key}/>
                   )
                 })
               }
             </ReactCSSTransitionGroup>
           </div>
-          {!!photos.length && this.state.isOpen &&
-            <Lightbox
-              images={this.createSourceImg()}
-              isOpen={this.state.isOpen}
-              onClickPrev={this.handlePrev.bind(this)}
-              onClickNext={this.handleNext.bind(this)}
-              onClose={this.handleClose.bind(this)}
-              currentImage={this.state.photoIndex}
-              backdropClosesModal
-            />
-          }
           <div className={this.state.isLoading ? "bottom-loading show" : "bottom-loading"}>
             <img src={botLoading} alt="loading" />
           </div>
         </div>
-        <Footer />
         <div className={this.state.firstLoading ? "loading show" : "loading"}>
           <img src={loading} alt="loading" />
         </div>

@@ -1,0 +1,478 @@
+.photo-well-scrappy-view .height-controller {
+    -webkit-touch-callout: none;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    background: #212124;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    height: 500px;
+}
+
+.photo-well-scrappy-view .height-controller .photo-well-media-scrappy-view {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    margin: auto;
+    padding: 50px 40px 50px 0;
+}
+
+.photo-well-scrappy-view .height-controller.enable-zoom .photo-well-media-scrappy-view {
+    padding: 50px 0;
+    padding-top: 90px;
+    z-index: 102;
+}
+
+.photo-well-scrappy-view .height-controller > :not(.photo-notes-scrappy-view) {
+    pointer-events: auto;
+}
+
+.photo-zoom{
+  position: relative;
+  max-width: 800px;
+  max-height: 423px;
+}
+
+.photo-zoom img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.photo-well-scrappy-view .height-controller .photo-well-media-scrappy-view .facade-of-protection-neue {
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+}
+
+.photo-well-scrappy-view .height-controller .photo-well-media-scrappy-view .facade-of-protection-neue .zoom-view {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: -webkit-zoom-in;
+    cursor: zoom-in;
+    background: transparent;
+}
+
+.photo-well-scrappy-view .height-controller .entry-type {
+    position: absolute;
+    z-index: 108;
+    top: 65px;
+    left: 30px;
+    text-decoration: none;
+    font-size: 14px;
+    color: #fff;
+}
+
+.photo-well-scrappy-view .height-controller .entry-type  span{
+    position: relative;
+    top: -3px;
+    left: 5px;
+}
+
+.photo-well-scrappy-view .height-controller .entry-type:hover {
+    text-decoration: underline;
+}
+
+.centered-content {
+    width: 1060px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
+.sub-photo-view {
+    height: 100%;
+}
+
+.sub-photo-left-view {
+    margin-right: 60px;
+    margin-bottom: 120px;
+    width: 500px;
+    float: left;
+}
+
+.sub-photo-left-view > .attribution-view.photo-attribution {
+    padding: 0;
+}
+
+.attribution-view.photo-attribution {
+    padding: 24px 20px 20px;
+    margin: 0;
+    min-height: 55px;
+}
+
+.attribution-view {
+    position: relative;
+}
+
+.attribution-view.photo-attribution > .avatar {
+    float: left;
+    margin: 26px 0 0;
+}
+.avatar.medium {
+    width: 60px;
+    height: 60px;
+}
+.avatar.person {
+    border-radius: 100%;
+}
+.avatar {
+    position: relative;
+    background-color: #ddd;
+    background-size: cover;
+    box-shadow: inset 0 0 20px rgba(0,0,0,.08);
+    margin: 10px 30px 10px 0;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: bottom;
+    -webkit-transition: box-shadow .15s ease-in-out;
+    transition: box-shadow .15s ease-in-out;
+    background-image: url(//c1.staticflickr.com/9/8571/buddyicons/98283828@N07_l.jpg?1473151562#98283828@N07);
+}
+
+.attribution-view.photo-attribution > .pro-badge-inline {
+    position: absolute;
+    left: 14px;
+    bottom: -5em;
+    margin-left: 0;
+    text-decoration: none;
+    color: #006dac;
+}
+.official-badge-inline, .pro-badge-inline {
+    display: inline-block;
+    position: relative;
+    bottom: 1px;
+    box-sizing: border-box;
+    width: 32px;
+    height: 18px;
+    line-height: 16px;
+    margin-left: 5px;
+    background: transparent;
+    font-size: 11px;
+    border-radius: 3px;
+    border: 1px solid currentColor;
+    text-align: center;
+    text-indent: 1px;
+}
+.sub-photo-view a {
+    text-decoration: none;
+    color: #006dac;
+}
+
+.sub-photo-left-view > .attribution-view.photo-attribution > .attribution-info {
+    margin-top: 12px;
+    margin-left: 13px;
+    width: 85%;
+}
+.attribution-view.photo-attribution > .attribution-info {
+    margin-left: 9px;
+}
+.attribution-view.photo-attribution > .attribution-icon, .attribution-view.photo-attribution > .attribution-info {
+    float: left;
+    display: block;
+}
+
+.sub-photo-left-view > .attribution-view.photo-attribution > .attribution-info .owner-name {
+    color: #212124;
+    top: 17px;
+    float: left;
+    font-size: 20px;
+    font-weight: 600;
+    margin-left: 0;
+    padding-left: 5px;
+    max-width: 250px;
+    width: auto;
+}
+.attribution-view.photo-attribution > .attribution-info .owner-name {
+    display: block;
+    font-size: 21px;
+    color: #fff;
+    padding-bottom: 4px;
+    line-height: 1;
+    position: relative;
+    top: -1px;
+    width: 213px;
+}
+
+.sub-photo-left-view > .attribution-view.photo-attribution > .attribution-info .follow-view {
+    float: left;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+.sub-photo-left-view > .attribution-view.photo-attribution > .attribution-info .follow-view > .relationship .follow.ui-button {
+    background-color: #008ddf;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-left: 20px;
+    height: 32px;
+    font-weight: 600;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    position: relative;
+}
+
+.follow-view > .relationship .follow {
+    background: #fff;
+    background-color: rgb(255, 255, 255);
+    color: #666;
+    border-color: #fff;
+    border-radius: 3px;
+}
+
+.sub-photo-left-view > .attribution-view.photo-attribution > .attribution-info .follow-view > .relationship .follow.ui-button > span {
+    color: #fff;
+    padding-left: 30px;
+    padding-right: 13px;
+}
+
+.ui-button > span, input.ui-button {
+    display: inline-block;
+    padding-right: 14px;
+    padding-left: 14px;
+    position: relative;
+}
+
+.sub-photo-title-desc-view {
+    margin: -25px 0 0 72px;
+    padding: 0 0 10px;
+    border-bottom: 1px solid #cfd6d9;
+}
+
+.sub-photo-title-desc-view > .title-desc-block.showFull {
+    max-height: 100%;
+}
+.sub-photo-title-desc-view > .title-desc-block {
+    position: relative;
+    top: -3px;
+    z-index: 101;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    padding: 5px;
+    overflow: hidden;
+}
+
+.sub-photo-title-desc-view > .title-desc-block > .meta-field.photo-title {
+    font-weight: 600;
+    font-size: 16px;
+    color: #212124;
+    line-height: 18px;
+    margin-bottom: 10px;
+    min-height: 18px;
+    display: inline-block;
+    width: 404px;
+    word-wrap: break-word;
+    margin-top: 20px;
+}
+.sub-photo-title-desc-view > .title-desc-block > .meta-field {
+    margin: 0;
+    display: block;
+    padding-bottom: 0;
+}
+
+.sub-photo-title-desc-view > .title-desc-block > .meta-field.photo-desc {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    min-height: 18px;
+    margin-bottom: 0;
+    clear: both;
+}
+
+.sub-photo-title-desc-view > .title-desc-block > .meta-field.photo-desc > p {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+}
+.sub-photo-title-desc-view > .title-desc-block > .meta-field > p {
+    margin: 0;
+}
+
+
+.sub-photo-right-view {
+    margin-top: 1em;
+    margin-bottom: 50px;
+    float: left;
+    width: 500px;
+    height: 100%;
+}
+
+.sub-photo-right-view > .sub-photo-right-row1 {
+    border-bottom: 1px solid #cfd6d9;
+    padding-bottom: 20px;
+    display: flow-root;
+}
+
+.sub-photo-right-view > .sub-photo-tags-view {
+    clear: both;
+    border-top: 1px solid #cfd6d9;
+    border-bottom: 1px solid #cfd6d9;
+    width: 500px;
+    padding-top: 23px;
+    display: flex;
+    padding-bottom: 25px;
+}
+
+.sub-photo-right-view > .sub-photo-right-row1 > .sub-photo-right-stats-view {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 18px;
+    margin-right: 30px;
+    margin-top: 13px;
+    float: left;
+    width: 223px;
+}
+
+.sub-photo-right-view > .sub-photo-right-row1 > .sub-photo-date-view {
+    float: left;
+    min-height: 42px;
+}
+
+.sub-photo-right-view > .sub-photo-right-row1 > .photo-license-view {
+    margin: 0;
+    float: right;
+    width: 245px;
+    white-space: nowrap;
+    overflow: visible;
+    font-size: 14px;
+}
+
+.sub-photo-right-view > .sub-photo-right-row1 > .sub-photo-right-stats-view .view-count {
+    width: 50%;
+    float: left;
+}
+
+.sub-photo-right-view > .sub-photo-right-row1 > .sub-photo-right-stats-view .comment-count {
+    width: 50%;
+    float: left;
+}
+
+.sub-photo-right-view > .sub-photo-right-row1 > .sub-photo-right-stats-view {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 18px;
+}
+
+.sub-photo-right-view > .sub-photo-right-row1 > .sub-photo-right-stats-view .stats-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 400;
+    color: #898989;
+}
+
+
+.sub-photo-right-view > .sub-photo-right-row1 > .sub-photo-date-view > .date-taken {
+    width: 247px;
+    font-size: 16px;
+    font-weight: 400;
+    margin: 3px -10px 7px;
+    padding: 7px 10px 5px;
+    -webkit-transition: background-color .2s ease-in-out;
+    transition: background-color .2s ease-in-out;
+}
+
+.sub-photo-right-view > .sub-photo-right-row1 > .sub-photo-date-view > .date-taken > .date-taken-label {
+    float: left;
+}
+
+.sub-photo-right-view > .sub-photo-right-row1 > .photo-license-view {
+    white-space: nowrap;
+}
+
+.sub-photo-right-view > .sub-photo-right-row1 > .photo-license-view > .photo-license-info > .photo-license-url {
+    color: #006dac;
+}
+
+.sub-photo-right-view > .sub-photo-right-row1 > .photo-license-view > .photo-license-info > .photo-license-url span {
+    vertical-align: baseline;
+    font-weight: 400;
+    position: relative;
+    top: 2px;
+    margin-left: 5px;
+}
+
+.sub-photo-tags-tag-view {
+    float: left;
+    width: 100%;
+    margin-right: 30px;
+}
+
+.sub-photo-right-view > .sub-photo-tags-view .tag-section-header, .sub-photo-right-view > .sub-photo-tags-view h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    float: left;
+}
+.sub-photo-view .tag-section-header, .sub-photo-view h3 {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+}
+
+.sub-photo-tags-tag-view > .autotags-helper {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.sub-photo-tags-tag-view > .autotags-helper > i.autotags-helper-icon {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    position: relative;
+    top: 5px;
+}
+
+.sub-photo-tags-tag-view > .tags-list {
+    clear: both;
+    list-style: none;
+    padding: 0;
+    margin: 1em 0;
+    margin-left: 0;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.sub-photo-tags-tag-view > .tags-list > .tag {
+    float: left;
+    border: none;
+    border-radius: 5px;
+    position: relative;
+    max-width: 96%;
+    margin: 0 5px 5px 0;
+    background-color: #cfd6d9;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    -webkit-transition: all .15s ease-in-out;
+    transition: all .15s ease-in-out;
+}
+
+.sub-photo-tags-tag-view > .tags-list > .tag > a {
+    padding: 0 10px;
+    line-height: 21px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    color: #212124;
+    font-weight: 400;
+}
+
+.sub-photo-tags-tag-view > .tags-list > .tag:hover {
+    background-color: #868d91;
+}
+
+.sub-photo-tags-tag-view > .tags-list > .tag:hover > a {
+    color: #fff;
+}
