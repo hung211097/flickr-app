@@ -52,7 +52,7 @@ class Home extends Component {
       this.loadPhotos()
     }
   }
-  
+
   createBoxes(data){
     return data.map((item) => {
         return {width: +item.width_m, height: +item.height_m}
@@ -101,7 +101,7 @@ class Home extends Component {
                   transitionLeaveTimeout={300}>
                   {!!photos.length && photos.map((item, key) => {
                       return(
-                        <Photo info={item} geometry={this.state.geometry.boxes[key]} key={key}/>
+                        <Photo info={item} geometry={this.state.geometry.boxes[key]} key={item.id}/>
                       )
                     })
                   }

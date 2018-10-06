@@ -25,10 +25,31 @@ class Header extends Component {
     e.preventDefault();
     const {history} = this.props
     if(this.state.keyword !== ''){
+      history.push(`/photo/tags/${this.state.keyword}`)
+    }
+  }
+
+  componentDidMount(){
+    if(this.props.location.pathname.indexOf('/photo/tags/') >= 0){
+      this.setState({
+        keyword: this.props.location.pathname.replace('/photo/tags/', '')
+      })
+    }
+  }
+
+  UNSAFE_componentWillReceiveProps(props){
+    if(props.location.pathname === '/'){
       this.setState({
         keyword: ''
       })
-      history.push(`/photo/tags/${this.state.keyword.replace(/ /g, "")}`)
+    }
+    else
+    {
+      if(props.location.state && props.location.state.keyword){
+        this.setState({
+          keyword: props.location.state.keyword
+        })
+      }
     }
   }
 

@@ -55,7 +55,6 @@ class Detail extends Component {
 
 
   render() {
-    console.log(this.state);
     return(
       <div>
         <div className="view photo-well-scrappy-view">
@@ -66,7 +65,6 @@ class Detail extends Component {
                   <div className="view zoom-view" onClick={this.handleZoom.bind(this)}></div>
                 </span>
                 {this.state.photo &&
-                  // <img className="main-photo" alt="img" src={this.state.photo.mediumSize.source}/>
                   <ImageZoom
                     image={{
                       src: this.state.photo.mediumSize.source,
@@ -122,8 +120,6 @@ class Detail extends Component {
                       {this.state.photo &&
                         <p dangerouslySetInnerHTML={{ __html: this.state.photo.description}}></p>
                       }
-                      {/*<p>OBSERVE Collective</p>
-                      <p>All images are © Copyrighted and All Rights Reserved</p>*/}
                     </h2>
                   </div>
                 </div>
@@ -174,7 +170,10 @@ class Detail extends Component {
                     {this.state.photo && this.state.photo.tags.map((item) => {
                         return(
                           <li className="tag" key={item.id}>
-                            <Link to={'/photo/tags/' + item.raw.replace(/ /g, "")}>
+                            <Link to={{
+                                pathname: '/photo/tags/' + item.raw,
+                                state: {keyword: item.raw}
+                              }}>
                               <span>{item.raw}</span>
                             </Link>
                           </li>

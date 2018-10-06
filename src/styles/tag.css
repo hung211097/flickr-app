@@ -23,3 +23,11 @@
     text-overflow: ellipsis;
     width: 100%;
 }
+
+.main h4{
+  margin-top: 20px;
+}
+
+.main.no-photo{
+  height: 400px;
+}

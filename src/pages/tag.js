@@ -28,7 +28,8 @@ class Tag extends Component {
       photos: [],
       geometry: null,
       nextPage: 1,
-      firstLoading: true
+      firstLoading: true,
+      noPhoto: false
     }
   }
 
@@ -37,19 +38,29 @@ class Tag extends Component {
       photos: [],
       geometry: null,
       nextPage: 1,
-      firstLoading: true
+      firstLoading: true,
+      noPhoto: false
     })
   }
 
   loadPhotos(props){
     this.apiService.getPhotosByTags(props.match.params.tagName, this.state.nextPage, 20).then((data) => {
-      this.setState({
-        photos: [...this.state.photos, ...data],
-        geometry: justifiedLayout(this.createBoxes([...this.state.photos, ...data]), config),
-        nextPage: this.state.nextPage + 1,
-        firstLoading: false,
-        isLoading: false
-      })
+      if(data.length){
+        this.setState({
+          photos: [...this.state.photos, ...data],
+          geometry: justifiedLayout(this.createBoxes([...this.state.photos, ...data]), config),
+          nextPage: this.state.nextPage + 1,
+          firstLoading: false,
+          isLoading: false
+        })
+      }
+      else{
+        this.setState({
+          noPhoto: true,
+          firstLoading: false,
+          isLoading: false
+        })
+      }
     })
   }
 
@@ -96,7 +107,7 @@ class Tag extends Component {
             </div>
           </div>
         </nav>
-        <div className="main fluid-centered">
+        <div className={this.state.noPhoto ? "main fluid-centered no-photo" : "main fluid-centered"}>
           <div className="title-row">
             <h5>
               <span>Tags</span>
@@ -104,36 +115,42 @@ class Tag extends Component {
               <span>{this.props.match.params.tagName}</span>
             </h5>
           </div>
-          <InfiniteScroll
-            pageStart={0}
-            loadMore={this.onLoadMore.bind(this)}
-            hasMore={this.state.nextPage > this.state.totalPages ? false : true}
-            threshold={100}
-            loader={
-            <div className={this.state.isLoading ? "bottom-loading show" : "bottom-loading"}>
-              <img src={botLoading} alt="loading" />
-            </div>}>
-            <div className="view tag-photos-everyone-view requiredToShowOnServer">
-              <div className="all-photo">
-                <h5 className="search-results-header">All Photos Tagged &quot;{this.props.match.params.tagName}&quot;</h5>
-              </div>
-              <div className="view photo-list-view" style={this.state.geometry ? {height: this.state.geometry.containerHeight} : {}}>
-                <ReactCSSTransitionGroup
-                  transitionName="fade"
-                  component="div"
-                  className=""
-                  transitionEnterTimeout={500}
-                  transitionLeaveTimeout={300}>
-                  {!!photos.length && photos.map((item, key) => {
-                      return(
-                        <Photo info={item} geometry={this.state.geometry.boxes[key]} key={key}/>
-                      )
-                    })
-                  }
-                </ReactCSSTransitionGroup>
-              </div>
+          {this.state.noPhoto ?
+            <div>
+              <h4>Không có hình nào được gắn tag "{this.props.match.params.tagName}"</h4>
             </div>
-          </InfiniteScroll>
+            :
+            <InfiniteScroll
+              pageStart={0}
+              loadMore={this.onLoadMore.bind(this)}
+              hasMore={this.state.nextPage > this.state.totalPages ? false : true}
+              threshold={100}
+              loader={
+              <div className={this.state.isLoading ? "bottom-loading show" : "bottom-loading"}>
+                <img src={botLoading} alt="loading" />
+              </div>}>
+              <div className="view tag-photos-everyone-view requiredToShowOnServer">
+                <div className="all-photo">
+                  <h5 className="search-results-header">All Photos Tagged &quot;{this.props.match.params.tagName}&quot;</h5>
+                </div>
+                <div className="view photo-list-view" style={this.state.geometry ? {height: this.state.geometry.containerHeight} : {}}>
+                  <ReactCSSTransitionGroup
+                    transitionName="fade"
+                    component="div"
+                    className=""
+                    transitionEnterTimeout={500}
+                    transitionLeaveTimeout={300}>
+                    {!!photos.length && photos.map((item, key) => {
+                        return(
+                          <Photo info={item} geometry={this.state.geometry.boxes[key]} key={item.id}/>
+                        )
+                      })
+                    }
+                  </ReactCSSTransitionGroup>
+                </div>
+              </div>
+            </InfiniteScroll>
+          }
         </div>
         <div className={this.state.firstLoading ? "loading show" : "loading"}>
           <img src={loading} alt="loading" />
