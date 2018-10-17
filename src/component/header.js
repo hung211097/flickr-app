@@ -6,10 +6,18 @@ import {cloudUpload} from 'react-icons-kit/fa/cloudUpload'
 import { Icon } from 'react-icons-kit'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
+import { connect } from 'react-redux'
+import {addPhotos, clearPhotos, updateTag} from '../actions'
+import ApiService from '../services/api.services'
+
+const mapStateToProps = (state) => {
+    return {}
+}
 
 class Header extends Component {
   constructor(props){
     super(props)
+    this.apiService = ApiService()
     this.state = {
       keyword: ''
     }
@@ -23,9 +31,16 @@ class Header extends Component {
 
   handleSubmit(e){
     e.preventDefault();
-    const {history} = this.props
+    const {history, dispatch} = this.props
     if(this.state.keyword !== ''){
-      history.push(`/photo/tags/${this.state.keyword}`)
+      dispatch(clearPhotos())
+      dispatch(updateTag(this.state.keyword))
+      this.apiService.getPhotosByTags(this.state.keyword, 1, 20).then((data) => {
+        if(data.length){
+          dispatch(addPhotos({photos: data, nextPage: 2}))
+        }
+        history.push(`/photo/tags/${this.state.keyword}`)
+      })
     }
   }
 
@@ -38,18 +53,10 @@ class Header extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(props){
-    if(props.location.pathname === '/'){
+    if(props.location.state && props.location.state.keyword){
       this.setState({
-        keyword: ''
+        keyword: props.location.state.keyword
       })
-    }
-    else
-    {
-      if(props.location.state && props.location.state.keyword){
-        this.setState({
-          keyword: props.location.state.keyword
-        })
-      }
     }
   }
 
@@ -100,4 +107,4 @@ class Header extends Component {
   }
 }
 
-export default withRouter(Header);
+export default withRouter(connect(mapStateToProps)(Header));

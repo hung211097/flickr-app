@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../styles/detail.css';
 import ApiService from '../services/api.services'
 import { withRouter } from 'react-router'
-import { Link } from 'react-router-dom'
 import {arrowLeft} from 'react-icons-kit/fa/arrowLeft'
 import {copyright} from 'react-icons-kit/fa/copyright'
 import {questionCircleO} from 'react-icons-kit/fa/questionCircleO'
@@ -11,6 +10,12 @@ import { Icon } from 'react-icons-kit'
 import {getAvatar} from '../services/utils.services'
 import format from 'date-fns/format'
 import ImageZoom from 'react-medium-image-zoom'
+import { connect } from 'react-redux'
+import {addPhotos, clearPhotos, updateTag} from '../actions'
+
+const mapStateToProps = (state) => {
+    return {}
+}
 
 class Detail extends Component {
   constructor(props){
@@ -53,6 +58,20 @@ class Detail extends Component {
     })
   }
 
+  handleSearchTag(tag){
+    const {history, dispatch} = this.props
+    dispatch(clearPhotos())
+    dispatch(updateTag(tag))
+    this.apiService.getPhotosByTags(tag, 1, 20).then((data) => {
+      if(data.length){
+        dispatch(addPhotos({photos: data, nextPage: 2}))
+      }
+      history.push({
+        pathname: `/photo/tags/${tag}`,
+        state: {keyword: tag}
+      })
+    })
+  }
 
   render() {
     return(
@@ -169,13 +188,10 @@ class Detail extends Component {
                   <ul className="tags-list">
                     {this.state.photo && this.state.photo.tags.map((item) => {
                         return(
-                          <li className="tag" key={item.id}>
-                            <Link to={{
-                                pathname: '/photo/tags/' + item.raw,
-                                state: {keyword: item.raw}
-                              }}>
+                          <li className="tag" key={item.id} onClick={this.handleSearchTag.bind(this, item.raw)}>
+                            <a>
                               <span>{item.raw}</span>
-                            </Link>
+                            </a>
                           </li>
                         )
                       })
@@ -191,4 +207,4 @@ class Detail extends Component {
   }
 }
 
-export default withRouter(Detail);
+export default withRouter(connect(mapStateToProps)(Detail));

@@ -10,6 +10,16 @@ import justifiedLayout from 'justified-layout';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { Link } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroller';
+import { connect } from 'react-redux'
+import {addPhotos, updateTag} from '../actions'
+
+const mapStateToProps = ({photosReducer, tagReducer}) => {
+    return {
+        photos: photosReducer.photos,
+        nextPage: photosReducer.nextPage,
+        tag: tagReducer.tag
+    }
+}
 
 const config = {
   containerWidth: 1087,
@@ -25,11 +35,9 @@ class Tag extends Component {
     super(props)
     this.apiService = ApiService()
     this.state = {
-      photos: [],
       geometry: null,
-      nextPage: 1,
       firstLoading: true,
-      noPhoto: false
+      noPhoto: false,
     }
   }
 
@@ -43,15 +51,21 @@ class Tag extends Component {
     })
   }
 
-  loadPhotos(props){
-    this.apiService.getPhotosByTags(props.match.params.tagName, this.state.nextPage, 20).then((data) => {
+  componentDidMount(){
+    this.loadPhotos(this.props)
+  }
+
+  loadPhotos(){
+    const {dispatch} = this.props
+    this.apiService.getPhotosByTags(this.props.match.params.tagName, this.props.nextPage, 20).then((data) => {
       if(data.length){
+        dispatch(addPhotos({photos: data, nextPage: this.props.nextPage + 1}))
+        dispatch(updateTag(this.props.match.params.tagName))
         this.setState({
-          photos: [...this.state.photos, ...data],
-          geometry: justifiedLayout(this.createBoxes([...this.state.photos, ...data]), config),
-          nextPage: this.state.nextPage + 1,
+          totalPages: data.totalPages,
           firstLoading: false,
-          isLoading: false
+          isLoading: false,
+          geometry: justifiedLayout(this.createBoxes(this.props.photos), config),
         })
       }
       else{
@@ -69,7 +83,7 @@ class Tag extends Component {
       this.setState({
         isLoading: true
       })
-      this.loadPhotos(this.props)
+      this.loadPhotos()
     }
   }
 
@@ -79,16 +93,8 @@ class Tag extends Component {
     })
   }
 
-  UNSAFE_componentWillReceiveProps(props){
-    this.setState({
-      firstLoading: true
-    })
-    this.init()
-    this.loadPhotos(props)
-  }
-
   render() {
-    const {photos} = this.state
+    const {photos} = this.props
     return (
       <div>
         <nav className="subnav">
@@ -112,26 +118,27 @@ class Tag extends Component {
             <h5>
               <span>Tags</span>
               <span><Icon icon={caretRight} size={16} style={{position: 'relative', top: '3px', margin: '0 7px'}}/></span>
-              <span>{this.props.match.params.tagName}</span>
+              <span>{this.props.tag ? this.props.tag : this.props.match.params.tagName}</span>
             </h5>
           </div>
           {this.state.noPhoto ?
-            <div>
-              <h4>Không có hình nào được gắn tag "{this.props.match.params.tagName}"</h4>
+            <div style={{minHeight: '350px'}}>
+              <h4>Không có hình nào được gắn tag &quot;{this.props.tag ? this.props.tag : this.props.match.params.tagName}&quot;</h4>
             </div>
             :
             <InfiniteScroll
               pageStart={0}
               loadMore={this.onLoadMore.bind(this)}
-              hasMore={this.state.nextPage > this.state.totalPages ? false : true}
+              hasMore={this.props.nextPage > this.state.totalPages ? false : true}
               threshold={100}
+              initialLoad={false}
               loader={
-              <div className={this.state.isLoading ? "bottom-loading show" : "bottom-loading"}>
+              <div className={this.state.isLoading ? "bottom-loading show" : "bottom-loading"} key={0}>
                 <img src={botLoading} alt="loading" />
               </div>}>
               <div className="view tag-photos-everyone-view requiredToShowOnServer">
                 <div className="all-photo">
-                  <h5 className="search-results-header">All Photos Tagged &quot;{this.props.match.params.tagName}&quot;</h5>
+                  <h5 className="search-results-header">All Photos Tagged &quot;{this.props.tag}&quot;</h5>
                 </div>
                 <div className="view photo-list-view" style={this.state.geometry ? {height: this.state.geometry.containerHeight} : {}}>
                   <ReactCSSTransitionGroup
@@ -140,7 +147,7 @@ class Tag extends Component {
                     className=""
                     transitionEnterTimeout={500}
                     transitionLeaveTimeout={300}>
-                    {!!photos.length && photos.map((item, key) => {
+                    {photos && this.state.geometry && !!photos.length && photos.map((item, key) => {
                         return(
                           <Photo info={item} geometry={this.state.geometry.boxes[key]} key={item.id}/>
                         )
@@ -160,4 +167,4 @@ class Tag extends Component {
   }
 }
 
-export default Tag;
+export default connect(mapStateToProps)(Tag);

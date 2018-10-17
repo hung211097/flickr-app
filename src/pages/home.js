@@ -89,7 +89,7 @@ class Home extends Component {
             hasMore={this.state.nextPage > this.state.totalPages ? false : true}
             threshold={100}
             loader={
-            <div className={this.state.isLoading ? "bottom-loading show" : "bottom-loading"}>
+            <div className={this.state.isLoading ? "bottom-loading show" : "bottom-loading"} key={0}>
               <img src={botLoading} alt="loading" />
             </div>}>
               <div className="view photo-list-view" style={this.state.geometry ? {height: this.state.geometry.containerHeight} : {}}>
