@@ -28,6 +28,6 @@
   margin-top: 20px;
 }
 
-.main.no-photo{
-  height: 400px;
+.main{
+  min-height: 400px;
 }

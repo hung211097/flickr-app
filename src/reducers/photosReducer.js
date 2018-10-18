@@ -1,6 +1,6 @@
 import { actionTypes } from '../actions'
 
-export default (state = {photos: [], nextPage: 1, urlLoad: true}, action) => {
+export default (state = {photos: [], nextPage: 1}, action) => {
   switch(action.type){
     case actionTypes.ADD_PHOTOS:
       return{

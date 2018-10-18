@@ -1,100 +1,26 @@
 import React, { Component } from 'react';
 import '../styles/tag.css';
-import ApiService from '../services/api.services'
-import {Photo} from '../component/index'
 import {caretRight} from 'react-icons-kit/fa/caretRight'
 import { Icon } from 'react-icons-kit'
-import loading from '../images/loading.gif'
-import botLoading from '../images/bot-loading.gif'
-import justifiedLayout from 'justified-layout';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import TagContainer from '../containers/tagContainer'
 import { Link } from 'react-router-dom'
-import InfiniteScroll from 'react-infinite-scroller';
-import { connect } from 'react-redux'
-import {addPhotos, updateTag} from '../actions'
-
-const mapStateToProps = ({photosReducer, tagReducer}) => {
-    return {
-        photos: photosReducer.photos,
-        nextPage: photosReducer.nextPage,
-        tag: tagReducer.tag
-    }
-}
-
-const config = {
-  containerWidth: 1087,
-  containerPadding: 0,
-  boxSpacing: {
-     horizontal: 5,
-     vertical: 5
-  }
-}
+import loading from '../images/loading.gif'
 
 class Tag extends Component {
   constructor(props){
     super(props)
-    this.apiService = ApiService()
     this.state = {
-      geometry: null,
-      firstLoading: true,
-      noPhoto: false,
+      firstLoading: true
     }
   }
 
-  init(){
+  handleCloseLoading(){
     this.setState({
-      photos: [],
-      geometry: null,
-      nextPage: 1,
-      firstLoading: true,
-      noPhoto: false
-    })
-  }
-
-  componentDidMount(){
-    this.loadPhotos(this.props)
-  }
-
-  loadPhotos(){
-    const {dispatch} = this.props
-    this.apiService.getPhotosByTags(this.props.match.params.tagName, this.props.nextPage, 20).then((data) => {
-      if(data.length){
-        dispatch(addPhotos({photos: data, nextPage: this.props.nextPage + 1}))
-        dispatch(updateTag(this.props.match.params.tagName))
-        this.setState({
-          totalPages: data.totalPages,
-          firstLoading: false,
-          isLoading: false,
-          geometry: justifiedLayout(this.createBoxes(this.props.photos), config),
-        })
-      }
-      else{
-        this.setState({
-          noPhoto: true,
-          firstLoading: false,
-          isLoading: false
-        })
-      }
-    })
-  }
-
-  onLoadMore() {
-    if(!this.state.isLoading){
-      this.setState({
-        isLoading: true
-      })
-      this.loadPhotos()
-    }
-  }
-
-  createBoxes(data){
-    return data.map((item) => {
-        return {width: +item.width_m, height: +item.height_m}
+      firstLoading: false
     })
   }
 
   render() {
-    const {photos} = this.props
     return (
       <div>
         <nav className="subnav">
@@ -113,7 +39,7 @@ class Tag extends Component {
             </div>
           </div>
         </nav>
-        <div className={this.state.noPhoto ? "main fluid-centered no-photo" : "main fluid-centered"}>
+        <div className="main fluid-centered">
           <div className="title-row">
             <h5>
               <span>Tags</span>
@@ -121,7 +47,8 @@ class Tag extends Component {
               <span>{this.props.tag ? this.props.tag : this.props.match.params.tagName}</span>
             </h5>
           </div>
-          {this.state.noPhoto ?
+          <TagContainer tagName={this.props.match.params.tagName} onCloseLoading={this.handleCloseLoading.bind(this)}/>
+          {/*{this.state.noPhoto ?
             <div style={{minHeight: '350px'}}>
               <h4>Không có hình nào được gắn tag &quot;{this.props.tag ? this.props.tag : this.props.match.params.tagName}&quot;</h4>
             </div>
@@ -157,8 +84,11 @@ class Tag extends Component {
                 </div>
               </div>
             </InfiniteScroll>
-          }
+          }*/}
         </div>
+        {/*<div className={this.state.firstLoading ? "loading show" : "loading"}>
+          <img src={loading} alt="loading" />
+        </div>*/}
         <div className={this.state.firstLoading ? "loading show" : "loading"}>
           <img src={loading} alt="loading" />
         </div>
@@ -167,4 +97,4 @@ class Tag extends Component {
   }
 }
 
-export default connect(mapStateToProps)(Tag);
+export default Tag;
