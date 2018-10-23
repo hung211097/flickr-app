@@ -5,6 +5,8 @@ export function getArrayPhotoMedium(data){
       return getInfoPhotoMedium(item)
     })
 
+    photo = photo.filter((item) => item !== null)
+
     photo.totalPages = data.pages
     return photo
 }
