@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../styles/tag.css';
 import {caretRight} from 'react-icons-kit/fa/caretRight'
 import { Icon } from 'react-icons-kit'
-import TagContainer from '../containers/tagContainer'
+import PhotoTagContainer from '../containers/photoTagContainer'
 import { Link } from 'react-router-dom'
 import loading from '../images/loading.gif'
 
@@ -47,48 +47,8 @@ class Tag extends Component {
               <span>{this.props.tag ? this.props.tag : this.props.match.params.tagName}</span>
             </h5>
           </div>
-          <TagContainer tagName={this.props.match.params.tagName} onCloseLoading={this.handleCloseLoading.bind(this)}/>
-          {/*{this.state.noPhoto ?
-            <div style={{minHeight: '350px'}}>
-              <h4>Không có hình nào được gắn tag &quot;{this.props.tag ? this.props.tag : this.props.match.params.tagName}&quot;</h4>
-            </div>
-            :
-            <InfiniteScroll
-              pageStart={0}
-              loadMore={this.onLoadMore.bind(this)}
-              hasMore={this.props.nextPage > this.state.totalPages ? false : true}
-              threshold={100}
-              initialLoad={false}
-              loader={
-              <div className={this.state.isLoading ? "bottom-loading show" : "bottom-loading"} key={0}>
-                <img src={botLoading} alt="loading" />
-              </div>}>
-              <div className="view tag-photos-everyone-view requiredToShowOnServer">
-                <div className="all-photo">
-                  <h5 className="search-results-header">All Photos Tagged &quot;{this.props.tag}&quot;</h5>
-                </div>
-                <div className="view photo-list-view" style={this.state.geometry ? {height: this.state.geometry.containerHeight} : {}}>
-                  <ReactCSSTransitionGroup
-                    transitionName="fade"
-                    component="div"
-                    className=""
-                    transitionEnterTimeout={500}
-                    transitionLeaveTimeout={300}>
-                    {photos && this.state.geometry && !!photos.length && photos.map((item, key) => {
-                        return(
-                          <Photo info={item} geometry={this.state.geometry.boxes[key]} key={item.id}/>
-                        )
-                      })
-                    }
-                  </ReactCSSTransitionGroup>
-                </div>
-              </div>
-            </InfiniteScroll>
-          }*/}
+          <PhotoTagContainer tagName={this.props.match.params.tagName} onCloseLoading={this.handleCloseLoading.bind(this)}/>
         </div>
-        {/*<div className={this.state.firstLoading ? "loading show" : "loading"}>
-          <img src={loading} alt="loading" />
-        </div>*/}
         <div className={this.state.firstLoading ? "loading show" : "loading"}>
           <img src={loading} alt="loading" />
         </div>

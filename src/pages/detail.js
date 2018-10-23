@@ -10,12 +10,7 @@ import { Icon } from 'react-icons-kit'
 import {getAvatar} from '../services/utils.services'
 import format from 'date-fns/format'
 import ImageZoom from 'react-medium-image-zoom'
-import { connect } from 'react-redux'
-import {addPhotos, clearPhotos, updateTag} from '../actions'
-
-const mapStateToProps = (state) => {
-    return {}
-}
+import TagContainer from '../containers/tagContainer'
 
 class Detail extends Component {
   constructor(props){
@@ -55,21 +50,6 @@ class Detail extends Component {
   handleZoom(){
     this.setState({
       isZoom: true
-    })
-  }
-
-  handleSearchTag(tag){
-    const {history, dispatch} = this.props
-    dispatch(clearPhotos())
-    dispatch(updateTag(tag))
-    this.apiService.getPhotosByTags(tag, 1, 20).then((data) => {
-      if(data.length){
-        dispatch(addPhotos({photos: data, nextPage: 2}))
-      }
-      history.push({
-        pathname: `/photo/tags/${tag}`,
-        state: {keyword: tag}
-      })
     })
   }
 
@@ -185,18 +165,7 @@ class Detail extends Component {
                   <span className="autotags-helper">
                     <Icon icon={questionCircleO} size={16} className="autotags-helper-icon" style={{position: 'relative', top: '4px'}}/>
                   </span>
-                  <ul className="tags-list">
-                    {this.state.photo && this.state.photo.tags.map((item) => {
-                        return(
-                          <li className="tag" key={item.id} onClick={this.handleSearchTag.bind(this, item.raw)}>
-                            <a>
-                              <span>{item.raw}</span>
-                            </a>
-                          </li>
-                        )
-                      })
-                    }
-                  </ul>
+                  <TagContainer tags={this.state.photo ? this.state.photo.tags : null} />
                 </div>
               </div>
             </div>
@@ -207,4 +176,4 @@ class Detail extends Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(Detail));
+export default withRouter(Detail);

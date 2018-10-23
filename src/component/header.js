@@ -35,6 +35,7 @@ class Header extends Component {
     if(this.state.keyword !== ''){
       dispatch(clearPhotos())
       dispatch(updateTag(this.state.keyword))
+      window.scrollTo(0, 0)
       this.apiService.getPhotosByTags(this.state.keyword, 1, 20).then((data) => {
         if(data.length){
           dispatch(addPhotos({photos: data, nextPage: 2}))
